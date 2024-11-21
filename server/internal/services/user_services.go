@@ -22,11 +22,18 @@ func NewUserServicesImpl(userRepo *repo.UserRepo) *UserServicesImpl {
 
 func (u *UserServicesImpl) SignUp(ctx *fiber.Ctx) error {
 	var userToBeSaved *models.User
+
 	if err := ctx.BodyParser(&userToBeSaved); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid Request",
+			"error": err.Error(),
 		})
 	}
+	if err := userToBeSaved.Validate(); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
 	if err := u.UserRepo.Create(userToBeSaved); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),

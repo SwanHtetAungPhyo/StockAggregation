@@ -1,17 +1,17 @@
-package  handler
+package handler
 
 import (
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/services"
 	"github.com/gofiber/fiber/v2"
 )
 
-func RouteSetUp(app *fiber.App)  {
+func RouteSetUp(app *fiber.App, serviceImp *services.UserServicesImpl) {
 	app.Post(
 		"/signup",
-		services.SignUp,
+		serviceImp.SignUp,
 	)
 	app.Post(
 		"/signin",
-		services.SignIn,
+		serviceImp.SignIn,
 	)
 }
