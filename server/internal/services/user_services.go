@@ -4,6 +4,8 @@ import (
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/models"
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/repo"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
+	"time"
 )
 
 type (
@@ -51,7 +53,16 @@ func (u *UserServicesImpl) SignIn(ctx *fiber.Ctx) error {
 		return sendError(ctx, fiber.StatusInternalServerError, "Failed to login user")
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "User logged in successfully",
-	})
+	claims := jwt.MapClaims{
+		"id":   login.Email,
+		"name": login.Name,
+		"exp":  time.Now().Add(time.Hour * 72).Unix(),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not create token"})
+	}
+
+	return ctx.JSON(fiber.Map{"token": t})
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/db"
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/handler"
 	"github.com/gofiber/fiber/v2"
@@ -13,7 +14,12 @@ import (
 func main() {
 	db.DbInit()
 	db.Migration(models.User{}, models.StockWatchList{})
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		JSONEncoder: json.Marshal,
+		JSONDecoder: json.Unmarshal,
+	})
+
+
 	userRepo := repo.UserRepo{}
 	userService := services.NewUserServicesImpl(&userRepo)
 
