@@ -16,7 +16,7 @@ type User struct {
 
 type StockWatchList struct {
 	gorm.Model
-	UserID   uint   `json:"userId"`
+	UserID   uint   `json:"userId,omitempty"`
 	Stock    string `gorm:"type:varchar(100);" json:"stock" validate:"required"`
 	Quantity int    `json:"quantity" validate:"required,min=1"`
 }

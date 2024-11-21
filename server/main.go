@@ -7,8 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/models"
-	"github.com/SwanHtetAungPhyo/stockAggregation/internal/repo"
-	"github.com/SwanHtetAungPhyo/stockAggregation/internal/services"
 )
 
 func main() {
@@ -19,11 +17,7 @@ func main() {
 		JSONDecoder: json.Unmarshal,
 	})
 
-
-	userRepo := repo.UserRepo{}
-	userService := services.NewUserServicesImpl(&userRepo)
-
-	handler.RouteSetUp(app, userService)
+	handler.RouteSetUp(app)
 	err := app.Listen(":3002")
 	if err != nil {
 		return

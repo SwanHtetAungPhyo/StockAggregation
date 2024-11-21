@@ -27,17 +27,25 @@ func (u *UserRepo) Create(user *models.User) error {
 	return nil
 }
 
-func (u *UserRepo) Login(user *models.User)  error {
+func (u *UserRepo) Login(user *models.User) (uint, string, error) {
 	loginUser := &models.User{}
 	err := db.DB.Where("email = ?", user.Email).First(&loginUser).Error
 	if err != nil {
 		logging.Error(err.Error())
-		return  err
+		return 0,"", err
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(loginUser.Password), []byte(user.Password))
 	if err != nil {
 		logging.Error(err.Error())
-		return  err
+		return  0,"" , err
 	}
-	return nil
+	return  loginUser.ID,loginUser.Name,nil
+}
+
+func (u *UserRepo) FindById(id int) (bool, error) {
+	user := new(models.User)
+	if err := db.DB.Where("id = ?", id).First(&user).Error; err != nil {
+		return false, err
+	}
+	return true, nil
 }

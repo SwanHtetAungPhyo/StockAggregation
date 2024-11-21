@@ -5,6 +5,7 @@ import (
 	"github.com/SwanHtetAungPhyo/stockAggregation/internal/repo"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+	"os"
 	"time"
 )
 
@@ -15,6 +16,12 @@ type (
 	}
 	UserServicesImpl struct {
 		UserRepo *repo.UserRepo
+	}
+	LoginResponse struct {
+		Token string `json:"token"`
+		Id    uint   `json:"id"`
+		Name  string `json:"name"`
+		Email string `json:"email"`
 	}
 )
 
@@ -49,20 +56,26 @@ func (u *UserServicesImpl) SignIn(ctx *fiber.Ctx) error {
 	if err := login.Validate(); err != nil {
 		return sendError(ctx, fiber.StatusBadRequest, err.Error())
 	}
-	if err := u.UserRepo.Login(login); err != nil {
+	id, name, err := u.UserRepo.Login(login)
+	if err != nil {
 		return sendError(ctx, fiber.StatusInternalServerError, "Failed to login user")
 	}
 
 	claims := jwt.MapClaims{
-		"id":   login.Email,
+		"id":   id,
 		"name": login.Name,
 		"exp":  time.Now().Add(time.Hour * 72).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not create token"})
 	}
 
-	return ctx.JSON(fiber.Map{"token": t})
+	return ctx.Status(fiber.StatusOK).JSON(LoginResponse{
+		Token: t,
+		Id:    id,
+		Name:  name,
+		Email: login.Email,
+	})
 }
