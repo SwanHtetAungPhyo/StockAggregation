@@ -1,0 +1,34 @@
+
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go_fiber_app
+    ports:
+      - "3002:3000"
+    environment:
+      - DB_USER=user
+      - DB_PASSWORD=root
+      - DB_NAME=stockAgg
+      - DB_HOST=db
+      - DB_PORT=3306 # Change to 3307 or any other available port
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    ports:
+      - "3306:3306" # Change to 3307 or another available port
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stockAgg
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

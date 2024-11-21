@@ -1,0 +1,90 @@
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 18:52:21"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 18:52:21"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 18:52:26"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 18:52:26"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 18:52:31"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 18:52:31"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 18:52:36"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 18:52:36"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 18:52:41"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 18:52:41"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 19:40:18"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 19:40:18"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 19:40:23"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 19:40:23"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 19:40:28"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 19:40:28"
+}
+{
+  "level": "info",
+  "msg": "Database connection successfully established",
+  "time": "2024-11-21 19:40:33"
+}
+{
+  "level": "info",
+  "msg": "Database connection failed: \u003cnil\u003e. Retrying in 5 seconds...",
+  "time": "2024-11-21 19:40:33"
+}
