@@ -21,30 +21,37 @@ func NewUserServicesImpl(userRepo *repo.UserRepo) *UserServicesImpl {
 }
 
 func (u *UserServicesImpl) SignUp(ctx *fiber.Ctx) error {
-	var userToBeSaved *models.User
-
+	var userToBeSaved models.User
 	if err := ctx.BodyParser(&userToBeSaved); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": err.Error(),
-		})
-	}
-	if err := userToBeSaved.Validate(); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": err.Error(),
-		})
+		return sendError(ctx, fiber.StatusBadRequest, "Invalid input data")
 	}
 
-	if err := u.UserRepo.Create(userToBeSaved); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": err.Error(),
-		})
+	if err := userToBeSaved.Validate(); err != nil {
+		return sendError(ctx, fiber.StatusBadRequest, err.Error())
 	}
+
+	if err := u.UserRepo.Create(&userToBeSaved); err != nil {
+		return sendError(ctx, fiber.StatusInternalServerError, "Failed to create user")
+	}
+
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User created successfully",
 	})
 }
 
 func (u *UserServicesImpl) SignIn(ctx *fiber.Ctx) error {
-	// Implementation goes here
-	return nil
+	login := new(models.User)
+	if err := ctx.BodyParser(login); err != nil {
+		return sendError(ctx, fiber.StatusBadRequest, "Invalid input data")
+	}
+	if err := login.Validate(); err != nil {
+		return sendError(ctx, fiber.StatusBadRequest, err.Error())
+	}
+	if err := u.UserRepo.Login(login); err != nil {
+		return sendError(ctx, fiber.StatusInternalServerError, "Failed to login user")
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "User logged in successfully",
+	})
 }
