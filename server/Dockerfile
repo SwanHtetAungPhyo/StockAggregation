@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the entire project to the working directory
 COPY . .
 
-# Install necessary dependencies (if needed)
+# Install necessary dependencies
 RUN go mod tidy
 
 # Build the Go app
@@ -26,7 +26,7 @@ WORKDIR /root/
 COPY --from=build /app/main .
 
 # Expose the application port
-EXPOSE 8081
+EXPOSE 3002
 
 # Command to run the executable
 CMD ["./main"]

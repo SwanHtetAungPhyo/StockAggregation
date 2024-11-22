@@ -58,3 +58,42 @@ func (w *WatchListServiceImpl) AddWatchList(ctx *fiber.Ctx) error {
 		"list":    watchList,
 	})
 }
+
+//func (w *WatchListServiceImpl) RemoveWatchList(ctx *fiber.Ctx) error {
+//	var watchList []models.StockWatchList
+//	userId, err := strconv.Atoi(ctx.Params("id"))
+//	if err != nil {
+//		return sendError(ctx, fiber.StatusBadRequest, "Invalid user ID")
+//	}
+//	userIdUint := uint(userId)
+//
+//
+//	if err := ctx.BodyParser(&watchList); err != nil {
+//		return sendError(ctx, fiber.StatusBadRequest, err.Error())
+//	}
+//
+//	if len(watchList) == 0 {
+//		return sendError(ctx, fiber.StatusBadRequest, "WatchList is empty")
+//	}
+//
+//	for _, watch := range watchList {
+//		if err := watch.Validate(); err != nil {
+//			log.Infof("Current WatchList is not valid %v", watch.Stock)
+//			log.Error(err)
+//			return sendError(ctx, fiber.StatusBadRequest, err.Error())
+//		}
+//	}
+//
+//	err := w.WatchListRepo.RemoveWatch(watchList,userIdUint)
+//	if err != nil {
+//		return sendError(ctx, fiber.StatusInternalServerError, err.Error())
+//	}
+//
+//	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+//		"message": "Successfully removed from watchlist",
+//		"list":    watchList,
+//	})
+//}
+//
+//
+//}

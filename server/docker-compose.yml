@@ -1,5 +1,3 @@
-
-
 services:
   app:
     build:
@@ -7,28 +5,35 @@ services:
       dockerfile: Dockerfile
     container_name: go_fiber_app
     ports:
-      - "3002:3000"
+      - "3002:3002"
     environment:
       - DB_USER=user
       - DB_PASSWORD=root
       - DB_NAME=stockAgg
       - DB_HOST=db
-      - DB_PORT=3306 # Change to 3307 or any other available port
+      - DB_PORT=5432
+      - JWT_SECRET=XgC7LztJc5FlTyraJwhaKYVeH4vUNrcnoUsH1hPr3JM=
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
-    image: mysql:8.0
-    container_name: mysql_db
+    image: postgres:13
+    container_name: postgres_db
     ports:
-      - "3306:3306" # Change to 3307 or another available port
+      - "5432:5432"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: stockAgg
-      MYSQL_USER: user
-      MYSQL_PASSWORD: root
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: stockAgg
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "stockAgg"]
+      interval: 5s
+      retries: 5
+      timeout: 5s
+      start_period: 10s
 
 volumes:
-  mysql_data:
+  postgres_data: {}

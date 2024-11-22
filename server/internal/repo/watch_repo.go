@@ -12,8 +12,12 @@ func NewWatchRepo() *WatchRepo {
 	return &WatchRepo{}
 }
 
-func (w *WatchRepo) GetWatchList() (*models.StockWatchList, error) {
-	return nil, nil
+func (w *WatchRepo) GetWatchList(userId uint) (*models.StockWatchList, error) {
+	var watchList models.StockWatchList
+	if err := db.DB.Where("user_id = ?", userId).Find(&watchList).Error; err != nil {
+		return nil, err
+	}
+	return &watchList, nil
 }
 
 func (w *WatchRepo) AddWatch(watchList *[]models.StockWatchList, id int) error {
@@ -36,6 +40,9 @@ func (w *WatchRepo) AddWatch(watchList *[]models.StockWatchList, id int) error {
 	return nil
 }
 
-func (w *WatchRepo) RemoveWatch() (bool, error) {
-	return false, nil
+func (w *WatchRepo) RemoveWatch(userId uint, stockId int) error {
+	if err := db.DB.Where("user_id = ? AND stock_id = ?", userId, stockId).Delete(&models.StockWatchList{}).Error; err != nil {
+		return err
+	}
+	return nil
 }
